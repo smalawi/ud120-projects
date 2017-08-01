@@ -19,4 +19,11 @@ import pickle
 
 enron_data = pickle.load(open("../final_project/final_project_dataset.pkl", "r"))
 
+poi = [x for x in enron_data if enron_data[x]["poi"] == 1]
+# print len(poi)
 
+# print enron_data["LAY KENNETH L"]["total_payments"]
+
+people = [x for x in enron_data if enron_data[x]["total_payments"] == 'NaN']
+print len(people)
+print len(enron_data)
