@@ -2,6 +2,8 @@
 
 import sys
 import pickle
+import numpy as np
+import pandas as pd
 sys.path.append("../tools/")
 
 from feature_format import featureFormat, targetFeatureSplit
@@ -10,13 +12,29 @@ from tester import dump_classifier_and_data
 ### Task 1: Select what features you'll use.
 ### features_list is a list of strings, each of which is a feature name.
 ### The first feature must be "poi".
-features_list = ['poi','salary'] # You will need to use more features
-
+features_list = ['poi', 'salary', 'deferral_payments', 'total_payments', 'loan_advances', 'bonus', 'restricted_stock_deferred', 'deferred_income', 'total_stock_value', 'expenses', 'exercised_stock_options', 'other', 'long_term_incentive', 'restricted_stock', 'director_fees',
+'to_messages', 'from_poi_to_this_person', 'from_messages', 'from_this_person_to_poi', 'shared_receipt_with_poi']  # You will need to use more features
+email_features = ['to_messages', 'from_poi_to_this_person', 'from_messages', 'from_this_person_to_poi', 'shared_receipt_with_poi']
 ### Load the dictionary containing the dataset
 with open("final_project_dataset.pkl", "r") as data_file:
     data_dict = pickle.load(data_file)
 
 ### Task 2: Remove outliers
+data_dict.pop('TOTAL')
+data_dict.pop('THE TRAVEL AGENCY IN THE PARK')
+
+data_df = pd.DataFrame.from_dict(data_dict, orient='index')
+
+data_df.replace('NaN', np.NaN, inplace=True)
+means = data_df.mean()
+
+for person in data_dict:
+    for feature in features_list:
+        if data_dict[person][feature] == 'NaN':
+            if feature in email_features:
+                data_dict[person][feature] = means[feature]
+            else:
+                data_dict[person][feature] = 0
 ### Task 3: Create new feature(s)
 ### Store to my_dataset for easy export below.
 my_dataset = data_dict
@@ -34,10 +52,12 @@ labels, features = targetFeatureSplit(data)
 # Provided to give you a starting point. Try a variety of classifiers.
 from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import AdaBoostClassifier
 # from sklearn.model_selection import GridSearchCV
 # rf = RandomForestClassifier()
-weights={0:1, 1:60}
-clf = RandomForestClassifier(n_estimators=30, class_weight=weights)
+weights={0: 500, 1: 1}
+clf = RandomForestClassifier(n_estimators=20)
+# clf = AdaBoostClassifier(class_weights='balanced')
 
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall 
 ### using our testing script. Check the tester.py script in the final project
