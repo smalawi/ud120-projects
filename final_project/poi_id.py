@@ -52,11 +52,24 @@ labels, features = targetFeatureSplit(data)
 # Provided to give you a starting point. Try a variety of classifiers.
 from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.ensemble import AdaBoostClassifier
-# from sklearn.model_selection import GridSearchCV
-# rf = RandomForestClassifier()
-weights={0: 500, 1: 1}
-clf = RandomForestClassifier(n_estimators=20)
+# from sklearn.ensemble import AdaBoostClassifier
+from sklearn.model_selection import GridSearchCV, StratifiedShuffleSplit
+from sklearn.tree import DecisionTreeClassifier
+clf = DecisionTreeClassifier(criterion="gini",
+                             splitter="best",
+                             max_depth=2,
+                             min_samples_split=2,
+                             class_weight='balanced')
+
+dt = DecisionTreeClassifier(random_state=42)
+metrics = 'precision'
+params = {
+    'criterion'         : ['gini', 'entropy'],
+    'splitter'          : ['best', 'random'],
+    'max_depth'         : [2, 10, 20, 30],
+    'min_samples_split' : [2, 4, 6],
+    'class_weight'      : [None, 'balanced']
+}
 # clf = AdaBoostClassifier(class_weights='balanced')
 
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall 
@@ -70,6 +83,19 @@ clf = RandomForestClassifier(n_estimators=20)
 from sklearn.cross_validation import train_test_split
 features_train, features_test, labels_train, labels_test = \
     train_test_split(features, labels, test_size=0.3, random_state=42)
+
+# clf.fit(features_train, labels_train)
+
+sss = StratifiedShuffleSplit(
+    n_splits = 20,
+    test_size = 0.5,
+    random_state = 0
+    )
+
+grid = GridSearchCV(dt, params, scoring='f1')
+grid.fit(features_train, labels_train)
+
+clf = grid.best_estimator_
 
 ### Task 6: Dump your classifier, dataset, and features_list so anyone can
 ### check your results. You do not need to change anything below, but make sure
