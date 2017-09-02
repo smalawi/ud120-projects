@@ -86,12 +86,6 @@ features_train, features_test, labels_train, labels_test = \
 
 # clf.fit(features_train, labels_train)
 
-sss = StratifiedShuffleSplit(
-    n_splits = 20,
-    test_size = 0.5,
-    random_state = 0
-    )
-
 grid = GridSearchCV(dt, params, scoring='f1')
 grid.fit(features_train, labels_train)
 
