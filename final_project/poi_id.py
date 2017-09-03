@@ -63,14 +63,10 @@ for person in data_dict:
 features_list.append('fraction_from_poi')
 features_list.append('fraction_to_poi')
 features_list.append('fraction_restricted_stock')
-# features_list.append('fraction_deferred_stock')
-# features_list.append('bonus_salary')
 for person in data_dict:
     data_dict[person]['fraction_from_poi'] = float(data_dict[person]['from_poi_to_this_person']) / data_dict[person]['from_messages']
     data_dict[person]['fraction_to_poi'] = float(data_dict[person]['from_this_person_to_poi']) / data_dict[person]['to_messages']
     data_dict[person]['fraction_restricted_stock'] = float(data_dict[person]['restricted_stock']) / data_dict[person]['total_stock_value']
-    # data_dict[person]['fraction_deferred_stock'] = float(data_dict[person]['restricted_stock_deferred']) / data_dict[person]['restricted_stock']
-    # data_dict[person]['bonus_salary'] = data_dict[person]['bonus'] * 1.0 / data_dict[person]['salary']
 
 
 ### Store to my_dataset for easy export below.
