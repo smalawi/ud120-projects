@@ -59,6 +59,8 @@ for person in data_dict:
                 data_dict[person][feature] = means[feature]
             else:
                 data_dict[person][feature] = medians[feature]
+
+print len(data_dict)
 ### Task 3: Create new feature(s)
 features_list.append('fraction_from_poi')
 features_list.append('fraction_to_poi')
@@ -126,6 +128,7 @@ grid = GridSearchCV(dt, params, scoring='f1')
 grid.fit(features_train, labels_train)
 
 clf = grid.best_estimator_
+#print clf.feature_importances_
 
 ### Task 6: Dump your classifier, dataset, and features_list so anyone can
 ### check your results. You do not need to change anything below, but make sure
