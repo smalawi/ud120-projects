@@ -37,6 +37,27 @@ was also applied to the problem, but precision and recall both suffered by 0.05 
 
 ### What does it mean to tune the parameters of an algorithm, and what can happen if you don’t do this well?  How did you tune the parameters of your particular algorithm? What parameters did you tune?
 
+Parameter tuning refers to the adjustment of a machine learning algorithm's parameters to achieve optimal performance. Adjusting
+parameters can have just as significant an effect on classifier performance as selecting an entirely different algorithm. A badly 
+tuned algorithm will be significantly less useful for making predictions.
+
+Several tools exist for automatic the parameter tuning process. For this project, grid search cross validation was used to quickly
+find the optimal combination of parameters from a supplied matrix of possibilities. The final decision tree classifier had the
+following parameters:
+
+*'criterion'         : [__'gini'__, 'entropy']
+*'splitter'          : ['best', __'random'__]
+*'max_depth'         : [2, __10__, 20, 30, 40]
+*'min_samples_split' : [__2__, 4, 6, 8]
+*'class_weight'      : [__None__, 'balanced']
+
 ### What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis?
 
+Validation entails testing a machine learning algorithm's performance after the training process. The purpose of validation is to
+ensure that an algorithm is trained such that it can be applied to additional data without sacrificing performance. Accordingly, a
+common mistake is to validate the algorithm on the same set of data it was trained on, which defeats the purpose of checking the
+algorithm's performance on multiple sets of data. The algorithm used in this project was validated by splitting the given data into
+training and testing sets (70% and 30%, respectively).
+
 ### Give at least 2 evaluation metrics and your average performance for each of them.  Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance.
+
