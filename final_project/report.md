@@ -27,13 +27,19 @@ interest, and restricted stock holdings, respectivly. The rationale behind engin
 information by placing the component features in context as ratios. The usage of all features was decided upon after trying several
 combinations, including solely financial or email features.
 
-Due to the usage of a decision tree classifier, no feature scaling was required. The most important features in the final decision tree
-were `bonus` (24.6%) and `fraction_restricted_stock` (19.3%).
+Due to the usage of a random forest classifier, no feature scaling was required. The most important features in the final random
+forest were `bonus` (31.9%) and `other` (17.1%).
 
 ### What algorithm did you end up using? What other one(s) did you try? How did model performance differ between algorithms?
 
-The final choice of classifier was a decision tree, with a final precision of 0.311 and recall of 0.336. A random forest algorithm
-was also applied to the problem, but precision and recall both suffered by 0.05 to 0.07 when using the most optimized parameters.
+The final choice of classifier was a random forest. A decision tree algorithm
+was also applied to the problem, but precision and recall both suffered slightly when using the most optimized parameters.
+The final performances as measured by precision and recall are reported below:
+
+| Algorithm      | Precision | Recall |
+| -------------- | --------- | ------ |
+| Decision Tree  | 0.311     | 0.336  |
+| Random Forest  | 0.322     | 0.363  |
 
 ### What does it mean to tune the parameters of an algorithm, and what can happen if you don’t do this well?  How did you tune the parameters of your particular algorithm? What parameters did you tune?
 
@@ -42,14 +48,15 @@ parameters can have just as significant an effect on classifier performance as s
 tuned algorithm will be significantly less useful for making predictions.
 
 Several tools exist for automatic the parameter tuning process. For this project, grid search cross validation was used to quickly
-find the optimal combination of parameters from a supplied matrix of possibilities. The final decision tree classifier had the
+find the optimal combination of parameters from a supplied matrix of possibilities. The final random forest classifier had the
 following parameters:
 
+*'n_estimators'      : [__10__, 20, 30]
 *'criterion'         : [__'gini'__, 'entropy']
-*'splitter'          : ['best', __'random'__]
-*'max_depth'         : [2, __10__, 20, 30, 40]
-*'min_samples_split' : [__2__, 4, 6, 8]
-*'class_weight'      : [__None__, 'balanced']
+*'bootstrap'         : [__True__, False]
+*'max_depth'         : [__2__, 10, 20]
+*'min_samples_split' : [2, 4, __6__, 8]
+*'class_weight'      : [None, __'balanced'__]
 
 ### What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis?
 

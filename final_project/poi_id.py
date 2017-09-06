@@ -99,12 +99,21 @@ from sklearn.tree import DecisionTreeClassifier
 #                              min_samples_split=2,
 #                              class_weight='balanced')
 
-dt = DecisionTreeClassifier(random_state=42)
-metrics = 'precision'
+# dt = DecisionTreeClassifier(random_state=42)
+# metrics = 'f1'
+# params = {
+#     'criterion'         : ['gini', 'entropy'],
+#     'splitter'          : ['best', 'random'],
+#     'max_depth'         : [2, 10, 20, 30, 40],
+#     'min_samples_split' : [2, 4, 6, 8],
+#     'class_weight'      : [None, 'balanced']
+# }
+rf = RandomForestClassifier(random_state=42)
 params = {
+    'n_estimators'      : [10, 20, 30],
     'criterion'         : ['gini', 'entropy'],
-    'splitter'          : ['best', 'random'],
-    'max_depth'         : [2, 10, 20, 30, 40],
+    'bootstrap'         : [True, False],
+    'max_depth'         : [2, 10, 20],
     'min_samples_split' : [2, 4, 6, 8],
     'class_weight'      : [None, 'balanced']
 }
@@ -124,11 +133,11 @@ features_train, features_test, labels_train, labels_test = \
 
 # clf.fit(features_train, labels_train)
 
-grid = GridSearchCV(dt, params, scoring='f1')
+grid = GridSearchCV(rf, params, scoring='f1')
 grid.fit(features_train, labels_train)
 
 clf = grid.best_estimator_
-#print clf.feature_importances_
+print clf.feature_importances_
 
 ### Task 6: Dump your classifier, dataset, and features_list so anyone can
 ### check your results. You do not need to change anything below, but make sure
