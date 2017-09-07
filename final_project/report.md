@@ -10,14 +10,17 @@ the Enron email corpus. Enron was a U.S. energy-trading company whose executives
 loopholes. At its peak, Enron was placed sixth on the _Fortune_ Global 500. The uncovering of Enron's fraudulent practices and
 ensuing scandal resulted in the then-largest bankruptcy reorganization in American history and the sentencing of many of the company's
 executives. The dataset consists of financial information as well as a corpus of about 500,000 emails for about 140 key Enron
-employees.
+employees, 18 of which are persons of interest. Using this data, a machine learning algorithm can be built to predict whether a
+given employee is a person of interest.
 
-<<ML STUFF>>
-
-__Outlier handling__
+__Outlier and missing data handling__
 
 Although a large amount of variation was expected for the financial data, sorting the data revealed two non-employee entires in the
 data dictionary: 'TOTAL' and 'THE TRAVEL AGENCY IN THE PARK'. These entries were removed from the dataset.
+
+A number of employees had missing data for various fields. Missing email information was imputed to the overall mean for the given
+field, while missing financial information was imputed to the median rather than the mean, since executives were expected to exhibit
+outliers in some financial fields (which would skew the average).
 
 ### What features did you end up using in your POI identifier, and what selection process did you use to pick them? Did you have to do any scaling? Why or why not? As part of the assignment, you should attempt to engineer your own feature that does not come ready-made in the dataset -- explain what feature you tried to make, and the rationale behind it. (You do not necessarily have to use it in the final analysis, only engineer and test it.) In your feature selection step, if you used an algorithm like a decision tree, please also give the feature importances of the features that you use, and if you used an automated feature selection function like SelectKBest, please report the feature scores and reasons for your choice of parameter values.
 
@@ -28,7 +31,7 @@ information by placing the component features in context as ratios. The usage of
 combinations, including solely financial or email features.
 
 Due to the usage of a random forest classifier, no feature scaling was required. The most important features in the final random
-forest were `bonus` (31.9%) and `other` (17.1%).
+forest were `fraction_from_poi` (18.3%) and `bonus` (17.9%).
 
 ### What algorithm did you end up using? What other one(s) did you try? How did model performance differ between algorithms?
 

@@ -41,6 +41,8 @@ with open("final_project_dataset.pkl", "r") as data_file:
 data_dict.pop('TOTAL')
 data_dict.pop('THE TRAVEL AGENCY IN THE PARK')
 
+### Task 2a: Impute missing values
+
 data_df = pd.DataFrame.from_dict(data_dict, orient='index')
 
 data_df.replace('NaN', np.NaN, inplace=True)
@@ -60,7 +62,6 @@ for person in data_dict:
             else:
                 data_dict[person][feature] = medians[feature]
 
-print len(data_dict)
 ### Task 3: Create new feature(s)
 features_list.append('fraction_from_poi')
 features_list.append('fraction_to_poi')
@@ -89,15 +90,9 @@ labels, features = targetFeatureSplit(data)
 
 # Provided to give you a starting point. Try a variety of classifiers.
 from sklearn.naive_bayes import GaussianNB
-from sklearn.ensemble import RandomForestClassifier
-# from sklearn.ensemble import AdaBoostClassifier
-from sklearn.model_selection import GridSearchCV, StratifiedShuffleSplit
 from sklearn.tree import DecisionTreeClassifier
-# clf = DecisionTreeClassifier(criterion="gini",
-#                              splitter="best",
-#                              max_depth=2,
-#                              min_samples_split=2,
-#                              class_weight='balanced')
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import GridSearchCV
 
 # dt = DecisionTreeClassifier(random_state=42)
 # metrics = 'f1'
@@ -117,7 +112,6 @@ params = {
     'min_samples_split' : [2, 4, 6, 8],
     'class_weight'      : [None, 'balanced']
 }
-# clf = AdaBoostClassifier(class_weights='balanced')
 
 ### Task 5: Tune your classifier to achieve better than .3 precision and recall 
 ### using our testing script. Check the tester.py script in the final project
@@ -130,8 +124,6 @@ params = {
 from sklearn.cross_validation import train_test_split
 features_train, features_test, labels_train, labels_test = \
     train_test_split(features, labels, test_size=0.3, random_state=42)
-
-# clf.fit(features_train, labels_train)
 
 grid = GridSearchCV(rf, params, scoring='recall')
 grid.fit(features_train, labels_train)
