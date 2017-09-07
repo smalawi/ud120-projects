@@ -133,7 +133,7 @@ features_train, features_test, labels_train, labels_test = \
 
 # clf.fit(features_train, labels_train)
 
-grid = GridSearchCV(rf, params, scoring='f1')
+grid = GridSearchCV(rf, params, scoring='recall')
 grid.fit(features_train, labels_train)
 
 clf = grid.best_estimator_

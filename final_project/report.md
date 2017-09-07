@@ -33,13 +33,13 @@ forest were `bonus` (31.9%) and `other` (17.1%).
 ### What algorithm did you end up using? What other one(s) did you try? How did model performance differ between algorithms?
 
 The final choice of classifier was a random forest. A decision tree algorithm
-was also applied to the problem, but precision and recall both suffered slightly when using the most optimized parameters.
+was also applied to the problem, but recall suffered significantly when using the most optimized parameters.
 The final performances as measured by precision and recall are reported below:
 
 | Algorithm      | Precision | Recall |
 | -------------- | --------- | ------ |
 | Decision Tree  | 0.311     | 0.336  |
-| Random Forest  | 0.322     | 0.363  |
+| Random Forest  | 0.308     | 0.470  |
 
 ### What does it mean to tune the parameters of an algorithm, and what can happen if you don’t do this well?  How did you tune the parameters of your particular algorithm? What parameters did you tune?
 
@@ -51,12 +51,12 @@ Several tools exist for automatic the parameter tuning process. For this project
 find the optimal combination of parameters from a supplied matrix of possibilities. The final random forest classifier had the
 following parameters:
 
-*'n_estimators'      : [__10__, 20, 30]
-*'criterion'         : [__'gini'__, 'entropy']
-*'bootstrap'         : [__True__, False]
-*'max_depth'         : [__2__, 10, 20]
-*'min_samples_split' : [2, 4, __6__, 8]
-*'class_weight'      : [None, __'balanced'__]
+*'n_estimators'           : [10, 20, __30__]
+*'criterion'              : ['gini', __'entropy'__]
+*'bootstrap'              : [True, __False__]
+*'max_depth'              : [__2__, 10, 20]
+*'min\\_samples\\_split'  : [__2__, 4, 6, 8]
+*'class_weight'           : [None, __'balanced'__]
 
 ### What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis?
 
@@ -66,5 +66,19 @@ common mistake is to validate the algorithm on the same set of data it was train
 algorithm's performance on multiple sets of data. The algorithm used in this project was validated by splitting the given data into
 training and testing sets (70% and 30%, respectively).
 
-### Give at least 2 evaluation metrics and your average performance for each of them.  Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance.
+### Give at least 2 evaluation metrics and your average performance for each of them. Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance.
 
+The metrics by which the algorithm was evaluated were precision and recall. These refer to the proportion of positive _results_ that
+were correctly classified (true positives), and the proportion of positive _data entries_ succesfully retrieved, respectively. In
+other words, a high precision indicates a low proportion of false positives, while a high recall indicates a low proportion of false
+negatives.
+
+For this project, precision and recall are more useful metrics than accuracy because they give more insight in the context of this
+problem's class imbalance; the persons of interest in the dataset are a distinct minority. Since a classifier could still attain a
+decent accuracy by simply identifying all data points as negative, precision and recall are better choices for understanding a 
+classifier's performance here. For this problem, precision is equivalent to the proportion of employees classified as POIs who are
+actually POIs, and recall is equivalent to the proportion of POIs who are successfully classified. One might argue that a higher
+precision is desirable in this case; if the algorithm is used as an initial automated screening tool, it would be more important
+to not miss any fraudulent employees than to avoid misclassifying innocent ones.
+
+As reported above, the final random forest classifier exhibited a precision of 0.308 and recall of 0.470.
