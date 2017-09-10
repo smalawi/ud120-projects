@@ -9,9 +9,11 @@ This project involves programmatically identifying fraudulent Enron employees us
 the Enron email corpus. Enron was a U.S. energy-trading company whose executives hid debt and exaggerrated growth through accounting
 loopholes. At its peak, Enron was placed sixth on the _Fortune_ Global 500. The uncovering of Enron's fraudulent practices and
 ensuing scandal resulted in the then-largest bankruptcy reorganization in American history and the sentencing of many of the company's
-executives. The dataset consists of financial information as well as a corpus of about 500,000 emails for about 140 key Enron
-employees, 18 of which are persons of interest. Using this data, a machine learning algorithm can be built to predict whether a
-given employee is a person of interest.
+executives.
+
+The dataset consists of financial information as well as a corpus of about 500,000 emails for 146 key Enron
+employees, 18 of which are persons of interest (POI). A total of 21 features are provided for initial investigation.
+Using this data, a machine learning algorithm can be built to predict whether a given employee is a POI.
 
 __Outlier and missing data handling__
 
@@ -24,14 +26,25 @@ outliers in some financial fields (which would skew the average).
 
 ### What features did you end up using in your POI identifier, and what selection process did you use to pick them? Did you have to do any scaling? Why or why not? As part of the assignment, you should attempt to engineer your own feature that does not come ready-made in the dataset -- explain what feature you tried to make, and the rationale behind it. (You do not necessarily have to use it in the final analysis, only engineer and test it.) In your feature selection step, if you used an algorithm like a decision tree, please also give the feature importances of the features that you use, and if you used an automated feature selection function like SelectKBest, please report the feature scores and reasons for your choice of parameter values.
 
-All of the given features were used, plus three additionally engineered features: `fraction_from_poi`, `fraction_to_poi`, and
+All of the given features were used. Three additional unused features were engineered and tested: `fraction_from_poi`,
+`fraction_to_poi`, and
 `fraction_restricted_stock`. These features were the proportion of emails received from persons of interest, sent to persons of
 interest, and restricted stock holdings, respectivly. The rationale behind engineering these features was the potential to gain more
-information by placing the component features in context as ratios. The usage of all features was decided upon after trying several
-combinations, including solely financial or email features.
+information by placing the component features in context as ratios.
+
+The usage of all features was decided upon after trying several combinations, including solely financial or email features.
+Classifier performance decreased slightly when using the new features, so they were left unused in the final classifier. Performance
+suffered considerably when only using a subset of the features, as displayed in the table below:
+
+| Featureset     | New features included? | Precision | Recall | Accuracy |
+| -------------- | ---------------------  | --------- | ------ | -------- |
+| Financial      | No                     | 0.248     | 0.410  | 0.756    |
+| Email          | No                     | 0.267     | 0.521  | 0.745    |
+| Combined       | No                     | 0.330     | 0.555  | 0.791    |
+| Combined       | Yes                    | 0.308     | 0.470  | 0.789    |
 
 Due to the usage of a random forest classifier, no feature scaling was required. The most important features in the final random
-forest were `fraction_from_poi` (18.3%) and `bonus` (17.9%).
+forest were `bonus` (35.1%) and `restricted_stock` (21.3%).
 
 ### What algorithm did you end up using? What other one(s) did you try? How did model performance differ between algorithms?
 
@@ -66,8 +79,12 @@ following parameters:
 Validation entails testing a machine learning algorithm's performance after the training process. The purpose of validation is to
 ensure that an algorithm is trained such that it can be applied to additional data without sacrificing performance. Accordingly, a
 common mistake is to validate the algorithm on the same set of data it was trained on, which defeats the purpose of checking the
-algorithm's performance on multiple sets of data. The algorithm used in this project was validated by splitting the given data into
-training and testing sets (70% and 30%, respectively).
+algorithm's performance on multiple sets of data.
+
+The algorithm used in this project was validated by uniformly randomly splitting the given data into
+training and testing sets (70% and 30%, respectively). Due to the class imbalance in this problem, the uage of a stratified shuffle
+split (to even out the number of POIs and non-POIs in training and testing data) was experimented with, but final classifier 
+performance decreased slightly from a normal train-test split.
 
 ### Give at least 2 evaluation metrics and your average performance for each of them. Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance.
 
