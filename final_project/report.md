@@ -54,8 +54,8 @@ The final performances as measured by precision and recall are reported below:
 
 | Algorithm      | Precision | Recall |
 | -------------- | --------- | ------ |
-| Decision Tree  | 0.311     | 0.336  |
-| Random Forest  | 0.308     | 0.470  |
+| Decision Tree  | 0.211     | 0.203  |
+| Random Forest  | 0.330     | 0.555  |
 
 ### What does it mean to tune the parameters of an algorithm, and what can happen if you don’t do this well?  How did you tune the parameters of your particular algorithm? What parameters did you tune?
 
@@ -101,4 +101,4 @@ actually POIs, and recall is equivalent to the proportion of POIs who are succes
 precision is desirable in this case; if the algorithm is used as an initial automated screening tool, it would be more important
 to not miss any fraudulent employees than to avoid misclassifying innocent ones.
 
-As reported above, the final random forest classifier exhibited a precision of 0.308 and recall of 0.470.
+As reported above, the final random forest classifier exhibited a precision of 0.330 and recall of 0.555.
