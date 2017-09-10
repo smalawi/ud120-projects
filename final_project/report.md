@@ -71,7 +71,7 @@ following parameters:
 * 'criterion'              : ['gini', __'entropy'__]
 * 'bootstrap'              : [True, __False__]
 * 'max_depth'              : [__2__, 10, 20]
-* 'min\\_samples\\_split'  : [__2__, 4, 6, 8]
+* 'min_samples_split'      : [__2__, 4, 6, 8]
 * 'class_weight'           : [None, __'balanced'__]
 
 ### What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis?
